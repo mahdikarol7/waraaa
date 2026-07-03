@@ -172,7 +172,7 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
         articles_found, articles_new, articles_sent, errors
     )
 
-    # Step 6: Send run summary
+    # Step 6: Send run summary to owner
     try:
         await send_run_summary({
             "time": datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -181,7 +181,7 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
             "articles_new": articles_new,
             "articles_sent": articles_sent,
             "errors": errors,
-        })
+        }, chat_id=TELEGRAM_CHAT_ID)
     except Exception as e:
         logger.error(f"Failed to send summary: {e}")
 

@@ -142,7 +142,8 @@ def send_articles_sync(articles):
     return asyncio.run(send_articles(articles))
 
 
-async def send_run_summary(stats):
+async def send_run_summary(stats, chat_id=None):
+    target_chat = chat_id or TELEGRAM_CHAT_ID
     bot = Bot(token=TELEGRAM_BOT_TOKEN)
     message = (
         f"📊 <b>News Monitor Run Complete</b>\n\n"
@@ -157,7 +158,7 @@ async def send_run_summary(stats):
 
     try:
         await bot.send_message(
-            chat_id=TELEGRAM_CHAT_ID,
+            chat_id=target_chat,
             text=message,
             parse_mode=ParseMode.HTML,
         )
