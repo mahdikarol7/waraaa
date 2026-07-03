@@ -53,8 +53,8 @@ def format_article(article):
             countries = []
 
     summary_fa = article.get("summary_fa") or article.get("summary", "")
-    if len(summary_fa) > 2000:
-        summary_fa = summary_fa[:1997] + "..."
+    if len(summary_fa) > 3000:
+        summary_fa = summary_fa[:2997] + "..."
 
     countries_str = ", ".join(countries) if countries else "N/A"
     raw_url = article.get("url", "")
