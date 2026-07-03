@@ -70,7 +70,7 @@ def is_war_relevant(article):
     return any(kw in text for kw in WAR_KEYWORDS)
 
 
-async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=None, max_articles=None):
+async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=None, max_articles=None, when=None):
     """Main monitoring cycle: fetch, process, send."""
     started_at = datetime.now(timezone.utc).isoformat()
     errors = []
