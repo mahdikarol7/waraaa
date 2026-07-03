@@ -36,7 +36,7 @@ WAR_KEYWORDS = [
     "ballistic", "himars", "patriot", "s-300", "kherson",
     "mykolaiv", "dnipro", "odesa", "mariupol",
 ]
-MAX_ARTICLES_PER_RUN = 50
+MAX_ARTICLES_PER_RUN = 10  # auto-schedule sends 10; /news sends 30
 
 
 def setup_logging():
@@ -68,10 +68,12 @@ def is_war_relevant(article):
     return any(kw in text for kw in WAR_KEYWORDS)
 
 
-async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=None):
+async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=None, max_articles=None):
     """Main monitoring cycle: fetch, process, send."""
     started_at = datetime.now(timezone.utc).isoformat()
     errors = []
+    is_auto = max_articles is None  # auto-schedule uses default, /news overrides
+    limit = max_articles or MAX_ARTICLES_PER_RUN
 
     logger.info("=" * 60)
     logger.info("Starting news monitoring run")
@@ -105,9 +107,9 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
     filtered = [a for a in unique_articles if is_war_relevant(a)]
     logger.info(f"War-relevant filter: {len(filtered)}/{len(unique_articles)} articles passed")
 
-    if len(filtered) > MAX_ARTICLES_PER_RUN:
-        filtered = filtered[:MAX_ARTICLES_PER_RUN]
-        logger.info(f"Capped to {MAX_ARTICLES_PER_RUN} articles per run")
+    if len(filtered) > limit:
+        filtered = filtered[:limit]
+        logger.info(f"Capped to {limit} articles per run")
 
     unique_articles = filtered
 
@@ -199,7 +201,7 @@ async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Fetching latest news, please wait...")
 
     try:
-        await run_monitor(target_chat_id=str(chat_id))
+        await run_monitor(target_chat_id=str(chat_id), max_articles=30)
         await update.message.reply_text("Done! News sent.")
     except Exception as e:
         logger.error(f"Error in /news command: {e}")
