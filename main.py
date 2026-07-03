@@ -108,7 +108,28 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
     unique_articles, duplicate_urls = deduplicate_articles(flat_articles)
     logger.info(f"After dedup: {len(unique_articles)} unique articles")
 
-    # Step 2.5: Pre-filter for war/conflict relevance
+    # Step 2.5: Only keep articles from the last 3 days
+    from datetime import timedelta
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=3)
+
+    def is_recent(article):
+        pub = article.get("published_at")
+        if not pub:
+            return True  # keep if no date
+        try:
+            pub_dt = datetime.fromisoformat(pub.replace("Z", "+00:00"))
+            if pub_dt.tzinfo is None:
+                pub_dt = pub_dt.replace(tzinfo=timezone.utc)
+            return pub_dt >= cutoff
+        except (ValueError, TypeError):
+            return True
+
+    recent = [a for a in unique_articles if is_recent(a)]
+    logger.info(f"Date filter: {len(recent)}/{len(unique_articles)} articles from last 3 days")
+    unique_articles = recent
+
+    # Step 2.6: Pre-filter for war/conflict relevance
     filtered = [a for a in unique_articles if is_war_relevant(a)]
     logger.info(f"War-relevant filter: {len(filtered)}/{len(unique_articles)} articles passed")
 
