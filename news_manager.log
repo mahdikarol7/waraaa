@@ -1,0 +1,397 @@
+2026-07-03 09:48:31,267 [INFO] main: Database initialized
+2026-07-03 09:48:31,268 [INFO] main: Running in test mode (single immediate run)
+2026-07-03 09:48:31,270 [INFO] monitor: ============================================================
+2026-07-03 09:48:31,270 [INFO] monitor: Starting news monitoring run
+2026-07-03 09:48:31,270 [INFO] sources: Fetching Reuters: https://www.reutersagency.com/feed/?taxonomy=best-sectors&post_type=best
+2026-07-03 09:48:34,697 [ERROR] sources: Request error for Reuters: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1028)
+2026-07-03 09:48:34,697 [INFO] sources: Trying fallback for Reuters
+2026-07-03 09:48:34,698 [INFO] sources: Fetching Reuters: https://feedx.net/rss/reuters.xml
+2026-07-03 09:48:42,443 [INFO] httpx: HTTP Request: GET https://feedx.net/rss/reuters.xml "HTTP/1.1 404 Not Found"
+2026-07-03 09:48:42,444 [ERROR] sources: HTTP error for Reuters: 404
+2026-07-03 09:48:42,446 [INFO] sources: Fetching AP News: https://feedx.net/rss/ap.xml
+2026-07-03 09:48:44,491 [INFO] httpx: HTTP Request: GET https://feedx.net/rss/ap.xml "HTTP/1.1 200 OK"
+2026-07-03 09:48:44,919 [INFO] sources: Fetched 10 articles from AP News
+2026-07-03 09:48:44,921 [INFO] sources: Fetching BBC: http://feeds.bbci.co.uk/news/world/rss.xml
+2026-07-03 09:48:46,494 [INFO] httpx: HTTP Request: GET http://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 302 Moved Temporarily"
+2026-07-03 09:48:47,172 [INFO] httpx: HTTP Request: GET https://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 200 OK"
+2026-07-03 09:48:47,203 [INFO] sources: Fetched 39 articles from BBC
+2026-07-03 09:48:47,204 [INFO] sources: Fetching Al Jazeera: https://www.aljazeera.com/xml/rss/all.xml
+2026-07-03 09:48:49,039 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/xml/rss/all.xml "HTTP/1.1 200 OK"
+2026-07-03 09:48:49,054 [INFO] sources: Fetched 25 articles from Al Jazeera
+2026-07-03 09:48:49,056 [INFO] sources: Fetching DW: https://rss.dw.com/rdf/rss-en-all
+2026-07-03 09:48:50,751 [INFO] httpx: HTTP Request: GET https://rss.dw.com/rdf/rss-en-all "HTTP/1.1 200 OK"
+2026-07-03 09:48:50,816 [INFO] sources: Fetched 100 articles from DW
+2026-07-03 09:48:50,819 [INFO] sources: Fetching Google News: https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en
+2026-07-03 09:48:53,095 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 09:48:53,174 [INFO] sources: Fetched 100 articles from Google News
+2026-07-03 09:48:53,178 [INFO] sources: Fetching ISW: https://www.understandingwar.org/rss.xml
+2026-07-03 09:48:55,210 [INFO] httpx: HTTP Request: GET https://www.understandingwar.org/rss.xml "HTTP/1.1 403 Forbidden"
+2026-07-03 09:48:55,256 [ERROR] sources: HTTP error for ISW: 403
+2026-07-03 09:48:55,259 [INFO] monitor: Fetched 274 articles from 5 sources
+2026-07-03 09:48:55,263 [INFO] processor.deduplicator: URL dedup: 0 duplicates removed, 274 remaining
+2026-07-03 09:48:55,303 [INFO] processor.deduplicator: Semantic dedup: 6 duplicates removed, 268 remaining
+2026-07-03 09:48:55,304 [INFO] monitor: After dedup: 268 unique articles
+2026-07-03 09:49:26,345 [WARNING] processor.extractor: Request error extracting https://apnews.com/article/germany-afd-far-right-protests-elections-277d377d7639423958b9975714f4cf03: _ssl.c:1011: The handshake operation timed out
+2026-07-03 09:49:31,181 [INFO] httpx: HTTP Request: GET https://apnews.com/article/pope-leo-catholic-traditional-latin-mass-american-cdfcd6a9669dd0b7717e9a4a91841dc5 "HTTP/1.1 200 OK"
+2026-07-03 09:49:36,384 [INFO] httpx: HTTP Request: GET https://apnews.com/article/venezuela-earthquakes-identifying-dead-f49371c5663fe3d3f25393a2d413abb4 "HTTP/1.1 200 OK"
+2026-07-03 09:49:41,658 [INFO] httpx: HTTP Request: GET https://apnews.com/article/india-hindu-temples-sacred-robotic-elephants-6630fc94c56203b30ea755efcfeb4fd4 "HTTP/1.1 200 OK"
+2026-07-03 09:49:46,615 [INFO] httpx: HTTP Request: GET https://apnews.com/article/stocks-markets-rates-ai-oil-trump-de7c9db96ce4d502079892d3ecef88cf "HTTP/1.1 200 OK"
+2026-07-03 09:49:54,641 [INFO] httpx: HTTP Request: GET https://apnews.com/article/switzerland-steam-trains-2e9f819732cb7ac7371e5811a93de745 "HTTP/1.1 200 OK"
+2026-07-03 09:49:59,908 [INFO] httpx: HTTP Request: GET https://apnews.com/article/california-farmer-nectarines-lawsuit-patent-4f7bc8ab185e8b9cbdd6d6ad4f2aabd1 "HTTP/1.1 200 OK"
+2026-07-03 09:50:05,200 [INFO] httpx: HTTP Request: GET https://apnews.com/article/world-cup-fans-eating-american-food-eb084ee9e62040c71cecfe53637e0e0a "HTTP/1.1 200 OK"
+2026-07-03 09:50:10,702 [INFO] httpx: HTTP Request: GET https://apnews.com/article/world-cup-croatia-portugal-goal-45a84c0d7703c3d8ad9a36dce09fa9c4 "HTTP/1.1 200 OK"
+2026-07-03 09:50:18,788 [INFO] httpx: HTTP Request: GET https://apnews.com/article/nato-summit-trump-erdogan-bond-c3fbddc43d7f4b0b12fcc2442ee03613 "HTTP/1.1 200 OK"
+2026-07-03 09:50:23,695 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cvg53ngvvpxo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:27,454 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/ce375v12z0qo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:31,257 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cvgm4e0316zo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:35,214 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/crlw1eeez19o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:38,788 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c4gyv05gk4do?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:42,507 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cx2vpz2qee5o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:46,378 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cx2k4k7jqeno?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:50,131 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c1mykzj15xno?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:53,840 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cn0vwxyz40zo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:50:57,450 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c75ykve4zzxo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:00,943 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cvgm49j9692o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:04,589 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c982m1m95q9o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:08,196 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/clye9zn0y1ro?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:11,777 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cr47129ky6do?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:15,295 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c2ky3p9jlveo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:19,010 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c23y90lygpzo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:22,602 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c982k1j3d70o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:26,159 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cwy0we4yw1lo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:29,801 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c5yz95188jjo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:33,511 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c1wy4d5p4pxo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:37,095 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c8x2y74wp9eo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:40,506 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/ce8j2lmrvrdo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:44,017 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c33yjk0ldkdo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:47,770 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cqj19p112qjo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:51,507 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c75ykv0k1pzo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:55,475 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/ce8k4pz91n5o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:51:59,086 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cn75ex1dv61o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:02,930 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c05yv34qlnlo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:06,773 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c70yk07vq0po?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:10,417 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/crlwe28dz44o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:13,946 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cx2x01q21wlo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:18,150 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cwykxwd43pwo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:22,628 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/c0lye4xr651o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:26,774 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/c33yl1l8dkro?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:30,214 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/cx2xw52ng5do?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:34,187 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/cvgmv2rmjqno?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:37,851 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/c621d53wqw0o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:41,625 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/cjeg1g82gz8o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:45,334 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/c4gyje1p0l9o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:49,345 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/features/2026/7/3/are-europes-extreme-summers-the-new-normal-what-the-science-says?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:53,208 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/delcy-rodriguez-responds-to-public-anger-at-government-response?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:52:57,416 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/sports/2026/7/3/switzerland-algeria-fifa-world-cup-2026-score-embolo-ndoye?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:01,841 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/khameneis-coffin-readied-as-iran-prepares-for-seven-day-funeral?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:05,404 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/news/2026/7/3/mapping-irans-ali-khamenei-funeral-where-mourners-will-gather-each-day?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:09,250 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/economy/2026/7/3/canadas-carney-secures-deal-for-pipeline-to-expand-oil-exports-beyond-us?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:13,709 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/papua-rebels-claim-to-have-killed-us-pilot-in-indonesia?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:17,839 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/economy/2026/7/3/iran-warns-ships-against-using-unapproved-routes-in-strait-of-hormuz?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:22,291 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/who-are-the-rogue-bishops-defying-pope-leo-xiv?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:25,766 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/sports/2026/7/3/they-gave-their-best-congolese-reflect-on-historic-world-cup-run?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:30,205 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/powerful-explosion-as-firefighters-probe-smoke-at-tacoma-apartment?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:34,595 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/sports/2026/7/3/ronaldo-scores-as-portugal-comeback-to-win-but-croatia-denied-by-late-var?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:38,740 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/relief-efforts-shift-as-venezuela-quake-survivors-seek-aid?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:44,411 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/news/liveblog/2026/7/3/iran-war-live-tehran-slams-us-ahead-of-huge-funeral-for-ali-khamenei?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:51,836 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/news/2026/7/2/trump-administration-indicts-olympic-athlete-for-reflecting-pool-vandalism?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 09:53:53,163 [WARNING] processor.translator: Translation failed: HTTPSConnectionPool(host='translate.google.com', port=443): Max retries exceeded with url: /m?tl=fa&sl=en&q=David+Hearn+could+face+up+to+10+years+in+prison+if+convicted%2C+but+critics+question+the+legitimacy+of+Trump%26%23039%3Bs+claims. (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1028)')))
+2026-07-03 09:55:56,747 [ERROR] sources: HTTP error for Reuters: 403
+2026-07-03 10:01:14,656 [INFO] main: Database initialized
+2026-07-03 10:01:14,657 [INFO] main: Running in test mode (single immediate run)
+2026-07-03 10:01:14,657 [INFO] monitor: ============================================================
+2026-07-03 10:01:14,657 [INFO] monitor: Starting news monitoring run
+2026-07-03 10:01:14,657 [INFO] sources: Fetching Reuters: https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:01:17,108 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:01:17,315 [INFO] sources: Fetched 100 articles from Reuters
+2026-07-03 10:01:17,316 [INFO] sources: Fetching AP News: https://feedx.net/rss/ap.xml
+2026-07-03 10:01:19,544 [INFO] httpx: HTTP Request: GET https://feedx.net/rss/ap.xml "HTTP/1.1 200 OK"
+2026-07-03 10:01:20,001 [INFO] sources: Fetched 10 articles from AP News
+2026-07-03 10:01:20,003 [INFO] sources: Fetching BBC: http://feeds.bbci.co.uk/news/world/rss.xml
+2026-07-03 10:01:21,595 [INFO] httpx: HTTP Request: GET http://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 302 Moved Temporarily"
+2026-07-03 10:01:22,363 [INFO] httpx: HTTP Request: GET https://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 200 OK"
+2026-07-03 10:01:22,377 [INFO] sources: Fetched 39 articles from BBC
+2026-07-03 10:01:22,378 [INFO] sources: Fetching Al Jazeera: https://www.aljazeera.com/xml/rss/all.xml
+2026-07-03 10:01:24,304 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/xml/rss/all.xml "HTTP/1.1 200 OK"
+2026-07-03 10:01:24,316 [INFO] sources: Fetched 25 articles from Al Jazeera
+2026-07-03 10:01:24,317 [INFO] sources: Fetching DW: https://rss.dw.com/rdf/rss-en-all
+2026-07-03 10:01:26,259 [INFO] httpx: HTTP Request: GET https://rss.dw.com/rdf/rss-en-all "HTTP/1.1 200 OK"
+2026-07-03 10:01:26,391 [INFO] sources: Fetched 100 articles from DW
+2026-07-03 10:01:26,393 [INFO] sources: Fetching Google News: https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:01:29,139 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:01:29,337 [INFO] sources: Fetched 100 articles from Google News
+2026-07-03 10:01:29,339 [INFO] sources: Fetching ISW: https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:01:32,091 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:01:32,269 [INFO] sources: Fetched 100 articles from ISW
+2026-07-03 10:01:32,271 [INFO] monitor: Fetched 474 articles from 7 sources
+2026-07-03 10:01:32,276 [INFO] processor.deduplicator: URL dedup: 94 duplicates removed, 380 remaining
+2026-07-03 10:01:32,307 [INFO] processor.deduplicator: Semantic dedup: 26 duplicates removed, 354 remaining
+2026-07-03 10:01:32,307 [INFO] monitor: After dedup: 354 unique articles
+2026-07-03 10:04:35,992 [INFO] main: Database initialized
+2026-07-03 10:04:35,993 [INFO] main: Running in test mode (single immediate run)
+2026-07-03 10:04:35,993 [INFO] monitor: ============================================================
+2026-07-03 10:04:35,993 [INFO] monitor: Starting news monitoring run
+2026-07-03 10:04:35,994 [INFO] sources: Fetching Reuters: https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:04:38,978 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:04:39,219 [INFO] sources: Fetched 100 articles from Reuters
+2026-07-03 10:04:39,221 [INFO] sources: Fetching AP News: https://feedx.net/rss/ap.xml
+2026-07-03 10:04:55,160 [ERROR] sources: Request error for AP News: _ssl.c:1011: The handshake operation timed out
+2026-07-03 10:04:55,160 [INFO] sources: Trying fallback for AP News
+2026-07-03 10:04:55,161 [INFO] sources: Fetching AP News: https://rsshub.app/apnews/topics/world-news
+2026-07-03 10:04:57,420 [INFO] httpx: HTTP Request: GET https://rsshub.app/apnews/topics/world-news "HTTP/1.1 403 Forbidden"
+2026-07-03 10:04:57,421 [ERROR] sources: HTTP error for AP News: 403
+2026-07-03 10:04:57,422 [INFO] sources: Fetching BBC: http://feeds.bbci.co.uk/news/world/rss.xml
+2026-07-03 10:04:59,016 [INFO] httpx: HTTP Request: GET http://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 302 Moved Temporarily"
+2026-07-03 10:04:59,800 [INFO] httpx: HTTP Request: GET https://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 200 OK"
+2026-07-03 10:04:59,817 [INFO] sources: Fetched 39 articles from BBC
+2026-07-03 10:04:59,818 [INFO] sources: Fetching Al Jazeera: https://www.aljazeera.com/xml/rss/all.xml
+2026-07-03 10:05:02,654 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/xml/rss/all.xml "HTTP/1.1 200 OK"
+2026-07-03 10:05:02,668 [INFO] sources: Fetched 25 articles from Al Jazeera
+2026-07-03 10:05:02,670 [INFO] sources: Fetching DW: https://rss.dw.com/rdf/rss-en-all
+2026-07-03 10:05:05,049 [INFO] httpx: HTTP Request: GET https://rss.dw.com/rdf/rss-en-all "HTTP/1.1 200 OK"
+2026-07-03 10:05:05,201 [INFO] sources: Fetched 100 articles from DW
+2026-07-03 10:05:05,203 [INFO] sources: Fetching Google News: https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:05:07,944 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:05:08,167 [INFO] sources: Fetched 100 articles from Google News
+2026-07-03 10:05:08,169 [INFO] sources: Fetching ISW: https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:05:11,276 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:05:11,455 [INFO] sources: Fetched 100 articles from ISW
+2026-07-03 10:05:11,459 [INFO] monitor: Fetched 464 articles from 6 sources
+2026-07-03 10:05:11,465 [INFO] processor.deduplicator: URL dedup: 0 duplicates removed, 464 remaining
+2026-07-03 10:05:11,513 [INFO] processor.deduplicator: Semantic dedup: 29 duplicates removed, 435 remaining
+2026-07-03 10:05:11,514 [INFO] monitor: After dedup: 435 unique articles
+2026-07-03 10:06:32,994 [INFO] monitor: Progress: 25/435 articles processed (25 new)
+2026-07-03 10:07:49,256 [INFO] monitor: Progress: 50/435 articles processed (50 new)
+2026-07-03 10:09:39,059 [INFO] main: Database initialized
+2026-07-03 10:09:39,059 [INFO] main: Running in test mode (single immediate run)
+2026-07-03 10:09:39,059 [INFO] monitor: ============================================================
+2026-07-03 10:09:39,060 [INFO] monitor: Starting news monitoring run
+2026-07-03 10:09:39,060 [INFO] sources: Fetching Reuters: https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:09:48,809 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 503 Service Unavailable"
+2026-07-03 10:09:48,810 [ERROR] sources: HTTP error for Reuters: 503
+2026-07-03 10:09:48,811 [INFO] sources: Fetching AP News: https://feedx.net/rss/ap.xml
+2026-07-03 10:09:50,798 [INFO] httpx: HTTP Request: GET https://feedx.net/rss/ap.xml "HTTP/1.1 200 OK"
+2026-07-03 10:09:51,192 [INFO] sources: Fetched 10 articles from AP News
+2026-07-03 10:09:51,194 [INFO] sources: Fetching BBC: http://feeds.bbci.co.uk/news/world/rss.xml
+2026-07-03 10:09:52,940 [INFO] httpx: HTTP Request: GET http://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 302 Moved Temporarily"
+2026-07-03 10:09:53,630 [INFO] httpx: HTTP Request: GET https://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 200 OK"
+2026-07-03 10:09:53,647 [INFO] sources: Fetched 39 articles from BBC
+2026-07-03 10:09:53,648 [INFO] sources: Fetching Al Jazeera: https://www.aljazeera.com/xml/rss/all.xml
+2026-07-03 10:09:55,564 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/xml/rss/all.xml "HTTP/1.1 200 OK"
+2026-07-03 10:09:55,578 [INFO] sources: Fetched 25 articles from Al Jazeera
+2026-07-03 10:09:55,580 [INFO] sources: Fetching DW: https://rss.dw.com/rdf/rss-en-all
+2026-07-03 10:09:57,342 [INFO] httpx: HTTP Request: GET https://rss.dw.com/rdf/rss-en-all "HTTP/1.1 200 OK"
+2026-07-03 10:09:57,411 [INFO] sources: Fetched 100 articles from DW
+2026-07-03 10:09:57,413 [INFO] sources: Fetching Google News: https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:09:59,376 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:09:59,455 [INFO] sources: Fetched 100 articles from Google News
+2026-07-03 10:09:59,456 [INFO] sources: Fetching ISW: https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:10:10,495 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 503 Service Unavailable"
+2026-07-03 10:10:10,496 [ERROR] sources: HTTP error for ISW: 503
+2026-07-03 10:10:10,497 [INFO] monitor: Fetched 274 articles from 5 sources
+2026-07-03 10:10:10,501 [INFO] processor.deduplicator: URL dedup: 0 duplicates removed, 274 remaining
+2026-07-03 10:10:10,528 [INFO] processor.deduplicator: Semantic dedup: 6 duplicates removed, 268 remaining
+2026-07-03 10:10:10,528 [INFO] monitor: After dedup: 268 unique articles
+2026-07-03 10:10:10,534 [INFO] monitor: War-relevant filter: 155/268 articles passed
+2026-07-03 10:10:35,329 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cvg53ngvvpxo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:10:39,081 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c4gyv05gk4do?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:10:43,164 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cx2k4k7jqeno?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:10:46,888 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cn0vwxyz40zo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:10:50,893 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c23y90lygpzo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:10:55,080 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c982k1j3d70o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:10:58,989 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c8x2y74wp9eo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:02,691 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c33yjk0ldkdo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:06,347 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/cn75ex1dv61o?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:10,276 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c05yv34qlnlo?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:14,233 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/articles/c70yk07vq0po?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:18,337 [INFO] httpx: HTTP Request: GET https://www.bbc.co.uk/news/videos/c33yl1l8dkro?at_medium=RSS&at_campaign=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:21,820 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/features/2026/7/3/are-europes-extreme-summers-the-new-normal-what-the-science-says?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:25,438 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/khameneis-coffin-readied-as-iran-prepares-for-seven-day-funeral?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:29,012 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/news/2026/7/3/mapping-irans-ali-khamenei-funeral-where-mourners-will-gather-each-day?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:32,833 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/economy/2026/7/3/canadas-carney-secures-deal-for-pipeline-to-expand-oil-exports-beyond-us?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:35,628 [INFO] monitor: Progress: 25/155 articles processed (25 new)
+2026-07-03 10:11:37,515 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/papua-rebels-claim-to-have-killed-us-pilot-in-indonesia?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:41,019 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/economy/2026/7/3/iran-warns-ships-against-using-unapproved-routes-in-strait-of-hormuz?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:45,025 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/newsfeed/2026/7/3/powerful-explosion-as-firefighters-probe-smoke-at-tacoma-apartment?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:48,759 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/news/liveblog/2026/7/3/iran-war-live-tehran-slams-us-ahead-of-huge-funeral-for-ali-khamenei?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:52,715 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/video/inside-story/2026/7/2/could-water-become-a-flashpoint-between-islamabad-and-new-delhi?traffic_source=rss "HTTP/1.1 200 OK"
+2026-07-03 10:11:59,485 [INFO] httpx: HTTP Request: GET https://www.dw.com/en/russia-launches-attacks-on-kyiv-killing-at-least-27-and-injuring-scores/a-77794194?maca=en-rss-en-all-1573-rdf "HTTP/1.1 200 OK"
+2026-07-03 10:12:06,760 [INFO] httpx: HTTP Request: GET https://www.dw.com/en/syria-bomb-blast-at-damascus-cafe-kills-several/a-77806230?maca=en-rss-en-all-1573-rdf "HTTP/1.1 200 OK"
+2026-07-03 10:12:13,406 [INFO] httpx: HTTP Request: GET https://www.dw.com/en/nord-stream-blast-ordered-by-ukraine-say-german-prosecutors/a-77798230?maca=en-rss-en-all-1573-rdf "HTTP/1.1 200 OK"
+2026-07-03 10:12:37,960 [INFO] main: Database initialized
+2026-07-03 10:12:37,960 [INFO] main: Running in test mode (single immediate run)
+2026-07-03 10:12:37,960 [INFO] monitor: ============================================================
+2026-07-03 10:12:37,960 [INFO] monitor: Starting news monitoring run
+2026-07-03 10:12:37,961 [INFO] sources: Fetching Reuters: https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:12:40,040 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:12:40,150 [INFO] sources: Fetched 100 articles from Reuters
+2026-07-03 10:12:40,151 [INFO] sources: Fetching AP News: https://feedx.net/rss/ap.xml
+2026-07-03 10:12:46,210 [ERROR] sources: Request error for AP News: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1028)
+2026-07-03 10:12:46,211 [INFO] sources: Trying fallback for AP News
+2026-07-03 10:12:46,211 [INFO] sources: Fetching AP News: https://rsshub.app/apnews/topics/world-news
+2026-07-03 10:12:50,843 [INFO] httpx: HTTP Request: GET https://rsshub.app/apnews/topics/world-news "HTTP/1.1 403 Forbidden"
+2026-07-03 10:12:50,844 [ERROR] sources: HTTP error for AP News: 403
+2026-07-03 10:12:50,845 [INFO] sources: Fetching BBC: http://feeds.bbci.co.uk/news/world/rss.xml
+2026-07-03 10:12:52,449 [INFO] httpx: HTTP Request: GET http://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 302 Moved Temporarily"
+2026-07-03 10:12:53,338 [INFO] httpx: HTTP Request: GET https://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 200 OK"
+2026-07-03 10:12:53,352 [INFO] sources: Fetched 39 articles from BBC
+2026-07-03 10:12:53,353 [INFO] sources: Fetching Al Jazeera: https://www.aljazeera.com/xml/rss/all.xml
+2026-07-03 10:12:55,036 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/xml/rss/all.xml "HTTP/1.1 200 OK"
+2026-07-03 10:12:55,046 [INFO] sources: Fetched 25 articles from Al Jazeera
+2026-07-03 10:12:55,048 [INFO] sources: Fetching DW: https://rss.dw.com/rdf/rss-en-all
+2026-07-03 10:12:56,777 [INFO] httpx: HTTP Request: GET https://rss.dw.com/rdf/rss-en-all "HTTP/1.1 200 OK"
+2026-07-03 10:12:56,836 [INFO] sources: Fetched 100 articles from DW
+2026-07-03 10:12:56,838 [INFO] sources: Fetching Google News: https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:12:58,779 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:12:58,855 [INFO] sources: Fetched 100 articles from Google News
+2026-07-03 10:12:58,857 [INFO] sources: Fetching ISW: https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:13:00,883 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:13:00,945 [INFO] sources: Fetched 100 articles from ISW
+2026-07-03 10:13:00,948 [INFO] monitor: Fetched 464 articles from 6 sources
+2026-07-03 10:13:00,954 [INFO] processor.deduplicator: URL dedup: 0 duplicates removed, 464 remaining
+2026-07-03 10:13:01,009 [INFO] processor.deduplicator: Semantic dedup: 29 duplicates removed, 435 remaining
+2026-07-03 10:13:01,010 [INFO] monitor: After dedup: 435 unique articles
+2026-07-03 10:13:01,015 [INFO] monitor: War-relevant filter: 284/435 articles passed
+2026-07-03 10:13:01,015 [INFO] monitor: Capped to 30 articles per run
+2026-07-03 10:14:08,554 [INFO] monitor: Progress: 25/30 articles processed (25 new)
+2026-07-03 10:14:22,747 [INFO] monitor: Progress: 30/30 articles processed (30 new)
+2026-07-03 10:14:22,747 [INFO] monitor: Processed and stored 30 new articles
+2026-07-03 10:14:28,490 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:29,670 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:30,901 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:32,092 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:33,319 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:34,517 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:35,735 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:36,929 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:38,124 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:39,333 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:40,560 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:41,754 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:43,237 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:44,424 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:45,657 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:46,852 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:48,065 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:49,398 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:50,571 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:51,749 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:52,929 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:54,247 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:55,446 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:56,623 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:57,860 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:14:59,126 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:15:00,307 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:15:01,490 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:15:02,691 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:15:03,883 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:15:04,944 [INFO] monitor: Sent 30 articles to Telegram
+2026-07-03 10:15:07,686 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:15:07,692 [INFO] monitor: Run complete: 30 sent, 30 new, 0 errors
+2026-07-03 10:15:07,692 [INFO] monitor: ============================================================
+2026-07-03 10:15:07,693 [INFO] main: Test run complete
+2026-07-03 10:18:46,464 [INFO] main: Database initialized
+2026-07-03 10:18:46,464 [INFO] main: Running in test mode (single immediate run)
+2026-07-03 10:18:46,464 [INFO] monitor: ============================================================
+2026-07-03 10:18:46,465 [INFO] monitor: Starting news monitoring run
+2026-07-03 10:18:46,465 [INFO] sources: Fetching Reuters: https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:18:48,807 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:18:48,887 [INFO] sources: Fetched 100 articles from Reuters
+2026-07-03 10:18:48,889 [INFO] sources: Fetching AP News: https://feedx.net/rss/ap.xml
+2026-07-03 10:18:50,801 [INFO] httpx: HTTP Request: GET https://feedx.net/rss/ap.xml "HTTP/1.1 200 OK"
+2026-07-03 10:18:51,515 [INFO] sources: Fetched 10 articles from AP News
+2026-07-03 10:18:51,516 [INFO] sources: Fetching BBC: http://feeds.bbci.co.uk/news/world/rss.xml
+2026-07-03 10:18:53,099 [INFO] httpx: HTTP Request: GET http://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 302 Moved Temporarily"
+2026-07-03 10:18:53,827 [INFO] httpx: HTTP Request: GET https://feeds.bbci.co.uk/news/world/rss.xml "HTTP/1.1 200 OK"
+2026-07-03 10:18:53,843 [INFO] sources: Fetched 39 articles from BBC
+2026-07-03 10:18:53,844 [INFO] sources: Fetching Al Jazeera: https://www.aljazeera.com/xml/rss/all.xml
+2026-07-03 10:18:55,532 [INFO] httpx: HTTP Request: GET https://www.aljazeera.com/xml/rss/all.xml "HTTP/1.1 200 OK"
+2026-07-03 10:18:55,543 [INFO] sources: Fetched 25 articles from Al Jazeera
+2026-07-03 10:18:55,545 [INFO] sources: Fetching DW: https://rss.dw.com/rdf/rss-en-all
+2026-07-03 10:18:57,125 [INFO] httpx: HTTP Request: GET https://rss.dw.com/rdf/rss-en-all "HTTP/1.1 200 OK"
+2026-07-03 10:18:57,189 [INFO] sources: Fetched 100 articles from DW
+2026-07-03 10:18:57,191 [INFO] sources: Fetching Google News: https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:18:59,604 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 200 OK"
+2026-07-03 10:18:59,660 [INFO] sources: Fetched 100 articles from Google News
+2026-07-03 10:18:59,661 [INFO] sources: Fetching ISW: https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en
+2026-07-03 10:19:06,615 [INFO] httpx: HTTP Request: GET https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en "HTTP/1.1 503 Service Unavailable"
+2026-07-03 10:19:06,616 [ERROR] sources: HTTP error for ISW: 503
+2026-07-03 10:19:06,617 [INFO] sources: Trying fallback for ISW
+2026-07-03 10:19:06,618 [INFO] sources: Fetching ISW: https://www.understandingwar.org/feed
+2026-07-03 10:19:08,950 [INFO] httpx: HTTP Request: GET https://www.understandingwar.org/feed "HTTP/1.1 521 <none>"
+2026-07-03 10:19:09,177 [ERROR] sources: HTTP error for ISW: 521
+2026-07-03 10:19:09,179 [INFO] monitor: Fetched 374 articles from 6 sources
+2026-07-03 10:19:09,184 [INFO] processor.deduplicator: URL dedup: 32 duplicates removed, 342 remaining
+2026-07-03 10:19:09,212 [INFO] processor.deduplicator: Semantic dedup: 6 duplicates removed, 336 remaining
+2026-07-03 10:19:09,213 [INFO] monitor: After dedup: 336 unique articles
+2026-07-03 10:19:09,218 [INFO] monitor: War-relevant filter: 182/336 articles passed
+2026-07-03 10:19:09,218 [INFO] monitor: Capped to 30 articles per run
+2026-07-03 10:20:41,722 [INFO] monitor: Progress: 25/30 articles processed (25 new)
+2026-07-03 10:20:57,714 [INFO] monitor: Progress: 30/30 articles processed (30 new)
+2026-07-03 10:20:57,714 [INFO] monitor: Processed and stored 30 new articles
+2026-07-03 10:21:00,377 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:00,379 [INFO] telegram_bot: Sent article 60: What to know about the funeral and burial of Iran’
+2026-07-03 10:21:01,612 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:01,615 [INFO] telegram_bot: Sent article 39: Ukrainian drone injures two aboard Belarusian tour
+2026-07-03 10:21:02,818 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:02,820 [INFO] telegram_bot: Sent article 43: Iran's Revolutionary Guards say they killed Kurdis
+2026-07-03 10:21:04,007 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:04,009 [INFO] telegram_bot: Sent article 33: Indonesia recovers body of American pilot killed b
+2026-07-03 10:21:05,202 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:05,205 [INFO] telegram_bot: Sent article 57: Ukraine withholding promised drone technology as h
+2026-07-03 10:21:06,411 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:06,413 [INFO] telegram_bot: Sent article 38: EXCLUSIVE: NATO joins exercises off US coast, even
+2026-07-03 10:21:07,588 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:07,590 [INFO] telegram_bot: Sent article 56: Putin says Russia will press on with front-line ca
+2026-07-03 10:21:08,770 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:08,772 [INFO] telegram_bot: Sent article 52: EXCLUSIVE: Inside Taiwan's nightmare scenario: Chi
+2026-07-03 10:21:09,967 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:09,970 [INFO] telegram_bot: Sent article 44: US says it supports Pakistan's right to defend its
+2026-07-03 10:21:11,166 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:11,168 [INFO] telegram_bot: Sent article 37: Blast at Damascus cafe kills nine, wounds 20, Syri
+2026-07-03 10:21:12,361 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:12,363 [INFO] telegram_bot: Sent article 42: EXCLUSIVE: Kuwait sharply boosts crude production 
+2026-07-03 10:21:13,556 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:13,558 [INFO] telegram_bot: Sent article 58: Most Gulf markets in red as US-Iran negotiations s
+2026-07-03 10:21:14,748 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:14,750 [INFO] telegram_bot: Sent article 35: Liberal Russian politician is detained in Moscow -
+2026-07-03 10:21:16,134 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:16,136 [INFO] telegram_bot: Sent article 54: Germany seeks powers for spies to hack and disrupt
+2026-07-03 10:21:17,317 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:17,319 [INFO] telegram_bot: Sent article 48: Syrian foreign minister says Syria open to meeting
+2026-07-03 10:21:18,556 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:18,558 [INFO] telegram_bot: Sent article 41: Russian fuel frustration rises as crisis bites - R
+2026-07-03 10:21:19,781 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:19,783 [INFO] telegram_bot: Sent article 46: Germany charges Ukrainian over Nord Stream pipelin
+2026-07-03 10:21:20,976 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:20,978 [INFO] telegram_bot: Sent article 53: Trump says the U.S. and Iran getting along very we
+2026-07-03 10:21:22,170 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:22,172 [INFO] telegram_bot: Sent article 51: EXCLUSIVE: Russia buys gasoline from India to tack
+2026-07-03 10:21:23,364 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:23,366 [INFO] telegram_bot: Sent article 34: Opening of North Korea-Russia road bridge likely d
+2026-07-03 10:21:24,609 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:24,611 [INFO] telegram_bot: Sent article 59: Russia attacks retail fuel stations in Ukraine, ki
+2026-07-03 10:21:25,826 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:25,828 [INFO] telegram_bot: Sent article 36: S&P 500, Nasdaq register best quarter since 2020 d
+2026-07-03 10:21:27,014 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:27,016 [INFO] telegram_bot: Sent article 31: Netanyahu visits occupied southern Lebanon, says I
+2026-07-03 10:21:28,187 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:28,189 [INFO] telegram_bot: Sent article 40: Ukraine hits Russia's Dubna satellite site for sec
+2026-07-03 10:21:29,382 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:29,384 [INFO] telegram_bot: Sent article 47: Israel-Lebanon deal may entrench stalemate rather 
+2026-07-03 10:21:30,603 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:30,606 [INFO] telegram_bot: Sent article 50: US and Iran negotiators head to Doha, but meeting 
+2026-07-03 10:21:31,801 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:31,802 [INFO] telegram_bot: Sent article 55: Israeli strike kills three Gaza Palestinians, incl
+2026-07-03 10:21:33,046 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:33,048 [INFO] telegram_bot: Sent article 49: Europe rethinks how it fights war as Russian threa
+2026-07-03 10:21:34,240 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:34,242 [INFO] telegram_bot: Sent article 45: How 5 weeks of war shattered some of Iran’s cheris
+2026-07-03 10:21:35,487 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:35,489 [INFO] telegram_bot: Sent article 32: Brent settles at lowest since before start of Iran
+2026-07-03 10:21:36,535 [INFO] monitor: Sent 30 articles to Telegram
+2026-07-03 10:21:39,208 [INFO] httpx: HTTP Request: POST https://api.telegram.org/bot8643769942:AAGNw7rces44uX_kk2wuOtimIZuO8FBA-r8/sendMessage "HTTP/1.1 200 OK"
+2026-07-03 10:21:39,214 [INFO] monitor: Run complete: 30 sent, 30 new, 0 errors
+2026-07-03 10:21:39,214 [INFO] monitor: ============================================================
+2026-07-03 10:21:39,215 [INFO] main: Test run complete
