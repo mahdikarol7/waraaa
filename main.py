@@ -2,6 +2,8 @@ import asyncio
 import logging
 import sys
 import os
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -282,15 +284,40 @@ def main():
     app.add_handler(CommandHandler("news", news_command))
     app.add_handler(CommandHandler("status", status_command))
 
-    # Scheduled job: every 3 hours
-    app.job_queue.run_repeating(
-        run_monitor,
-        interval=3 * 3600,  # 3 hours in seconds
-        first=10,  # first run 10 seconds after start
-        name="news_monitor",
-    )
+    # Scheduled jobs at Iran time (UTC+3:30)
+    from telegram.ext import JobQueue
+    job_queue = app.job_queue
 
-    logger.info("Bot started with /news command and 3-hour auto schedule")
+    # Iran times: 05:00, 08:00, 11:00, 14:00, 17:00, 20:00, 23:00
+    # = UTC: 01:30, 04:30, 07:30, 10:30, 13:30, 16:30, 19:30
+    iran_times = [
+        (1, 30), (4, 30), (7, 30), (10, 30), (13, 30), (16, 30), (19, 30)
+    ]
+    for hour, minute in iran_times:
+        job_queue.run_daily(
+            run_monitor,
+            time=datetime(hour=hour, minute=minute, tzinfo=timezone.utc),
+            name=f"news_{hour:02d}:{minute:02d}_UTC",
+        )
+
+    logger.info("Bot started with /news command and Iran-time schedule (every 3 hours)")
+
+    # Keep-alive HTTP server for Railway
+    port = int(os.environ.get("PORT", 8080))
+
+    class HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"OK")
+        def log_message(self, format, *args):
+            pass
+
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    logger.info(f"Keep-alive server running on port {port}")
+
     app.run_polling(drop_pending_updates=True)
 
 
