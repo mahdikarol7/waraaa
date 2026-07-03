@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import sys
 import os
@@ -9,7 +10,8 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 from config import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, LOG_FILE, LOG_LEVEL
 from database import (
-    init_db, insert_article, get_unsent_articles, mark_sent, log_run
+    init_db, insert_article, get_unsent_articles, mark_sent, log_run,
+    add_user, get_all_users
 )
 from sources import fetch_all_sources
 from processor import (
@@ -137,9 +139,24 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
 
     if unsent:
         try:
-            articles_sent, sent_ids = await send_articles(unsent, chat_id=target_chat_id)
-            mark_sent(sent_ids)
-            logger.info(f"Sent {articles_sent} articles to Telegram")
+            # If called by /news, send to that user. If auto-schedule, send to all users.
+            if target_chat_id:
+                users = [target_chat_id]
+            else:
+                users = get_all_users()
+                if not users:
+                    users = [TELEGRAM_CHAT_ID]
+
+            total_sent = 0
+            for uid in users:
+                sent, ids = await send_articles(unsent, chat_id=uid)
+                total_sent += sent
+                if uid != target_chat_id:
+                    await asyncio.sleep(0.5)
+
+            articles_sent = total_sent
+            mark_sent([a["id"] for a in unsent])
+            logger.info(f"Sent {articles_sent} articles to {len(users)} user(s)")
         except Exception as e:
             logger.error(f"Error sending to Telegram: {e}")
             errors.append(f"Telegram send error: {e}")
@@ -174,8 +191,11 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
 
 
 async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /news command — fetch and send latest news to the user who sent it."""
+    """Handle /news command — register user and send news to them."""
     chat_id = update.effective_chat.id
+    username = update.effective_user.username or update.effective_user.first_name
+    add_user(chat_id, username)
+
     await update.message.reply_text("Fetching latest news, please wait...")
 
     try:
@@ -187,7 +207,12 @@ async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /start command."""
+    """Handle /start command — register user."""
+    chat_id = update.effective_chat.id
+    username = update.effective_user.username or update.effective_user.first_name
+    add_user(chat_id, username)
+    logger.info(f"New user registered: {chat_id} ({username})")
+
     await update.message.reply_text(
         "Welcome to War News Monitor Bot!\n\n"
         "Commands:\n"

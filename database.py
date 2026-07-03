@@ -47,6 +47,13 @@ def init_db():
             errors TEXT
         );
 
+        CREATE TABLE IF NOT EXISTS users (
+            chat_id TEXT PRIMARY KEY,
+            username TEXT,
+            first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
         CREATE INDEX IF NOT EXISTS idx_articles_url ON articles(url);
         CREATE INDEX IF NOT EXISTS idx_articles_sent ON articles(sent_to_telegram);
         CREATE INDEX IF NOT EXISTS idx_articles_published ON articles(published_at);
@@ -162,3 +169,21 @@ def log_run(started_at, finished_at, sources_fetched, articles_found, articles_n
     ))
     conn.commit()
     conn.close()
+
+
+def add_user(chat_id, username=None):
+    conn = get_connection()
+    now = datetime.now(timezone.utc).isoformat()
+    conn.execute("""
+        INSERT OR REPLACE INTO users (chat_id, username, last_active)
+        VALUES (?, ?, ?)
+    """, (str(chat_id), username, now))
+    conn.commit()
+    conn.close()
+
+
+def get_all_users():
+    conn = get_connection()
+    rows = conn.execute("SELECT chat_id FROM users").fetchall()
+    conn.close()
+    return [row["chat_id"] for row in rows]
