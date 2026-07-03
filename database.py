@@ -206,7 +206,7 @@ def get_all_users():
 
 
 MAX_TOKENS = 4
-TOKEN_REFILL_HOURS = 3
+TOKEN_REFILL_HOURS = 24
 
 
 def use_news_token(chat_id):
