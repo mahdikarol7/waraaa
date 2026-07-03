@@ -4,7 +4,7 @@ import sys
 import os
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from datetime import datetime, timezone
+from datetime import datetime, timezone, time as dtime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -296,7 +296,7 @@ def main():
     for hour, minute in iran_times:
         job_queue.run_daily(
             run_monitor,
-            time=datetime(hour=hour, minute=minute, tzinfo=timezone.utc),
+            time=dtime(hour=hour, minute=minute, tzinfo=timezone.utc),
             name=f"news_{hour:02d}:{minute:02d}_UTC",
         )
 
