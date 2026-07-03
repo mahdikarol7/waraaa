@@ -42,13 +42,16 @@ MAX_ARTICLES_PER_RUN = 10  # auto-schedule sends 10; /news sends 30
 
 
 def setup_logging():
+    handlers = [logging.StreamHandler(sys.stdout)]
+    try:
+        from config import LOG_FILE
+        handlers.insert(0, logging.FileHandler(LOG_FILE, encoding="utf-8"))
+    except Exception:
+        pass
     logging.basicConfig(
         level=getattr(logging, LOG_LEVEL),
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        handlers=[
-            logging.FileHandler(LOG_FILE, encoding="utf-8"),
-            logging.StreamHandler(sys.stdout),
-        ],
+        handlers=handlers,
     )
 
 

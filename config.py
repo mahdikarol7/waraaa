@@ -10,10 +10,10 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
 SCHEDULE_TIMES = ["05:00", "08:00", "11:00", "14:00", "17:00", "20:00", "23:00"]
 
 # Database
-DB_PATH = os.path.join(os.path.dirname(__file__), "news.db")
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "news.db")
 
 # Logging
-LOG_FILE = os.path.join(os.path.dirname(__file__), "news_manager.log")
+LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "news_manager.log")
 LOG_LEVEL = "INFO"
 
 # HTTP
