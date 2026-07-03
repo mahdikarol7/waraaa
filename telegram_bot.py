@@ -53,9 +53,6 @@ def format_article(article):
             countries = []
 
     summary_fa = article.get("summary_fa") or article.get("summary", "")
-    if len(summary_fa) > 3000:
-        summary_fa = summary_fa[:2997] + "..."
-
     countries_str = ", ".join(countries) if countries else "N/A"
     raw_url = article.get("url", "")
     url = clean_url(raw_url)
@@ -70,31 +67,54 @@ def format_article(article):
         except (ValueError, TypeError):
             pass
 
-    message = (
+    # Header message (always same)
+    header = (
         f"{emoji} <b>{escape(importance)}</b>\n\n"
         f"📌 <b>{escape(title_fa)}</b>\n"
     )
-
-    # Show English title if different from Persian
     if title_en and title_fa and title_en != title_fa:
-        message += f"🇬🇧 {escape(title_en)}\n"
+        header += f"🇬🇧 {escape(title_en)}\n"
 
     if source_url:
-        message += f'📰 <a href="{escape(source_url)}">{escape(source)}</a>'
+        header += f'📰 <a href="{escape(source_url)}">{escape(source)}</a>'
     else:
-        message += f"📰 {escape(source)}"
+        header += f"📰 {escape(source)}"
 
-    message += f" | 🕐 {escape(str(published))}\n"
-    message += f"🏷️ {escape(category)} | 🌍 {escape(countries_str)}\n\n"
+    header += f" | 🕐 {escape(str(published))}\n"
+    header += f"🏷️ {escape(category)} | 🌍 {escape(countries_str)}\n\n"
 
+    # Split summary into chunks of 10 lines
+    messages = []
     if summary_fa:
-        message += f"{escape(summary_fa)}\n"
+        lines = summary_fa.split("\n")
+        # If single line, split by sentence
+        if len(lines) <= 1:
+            lines = summary_fa.split(". ")
+            lines = [l.strip() + "." if not l.strip().endswith(".") else l.strip() for l in lines if l.strip()]
 
-    # Only show article link if it's a real URL (not Google News redirect)
+        chunk = []
+        for line in lines:
+            chunk.append(line)
+            if len(chunk) >= 10:
+                messages.append("\n".join(chunk))
+                chunk = []
+        if chunk:
+            messages.append("\n".join(chunk))
+    else:
+        messages.append("(No summary available)")
+
+    # First message: header + first chunk
+    result = [header + messages[0]]
+
+    # Remaining chunks as follow-up messages
+    for msg in messages[1:]:
+        result.append(f"📄 <b>{escape(title_fa[:30])}...</b>\n\n{escape(msg)}")
+
+    # Last message: link
     if url:
-        message += f'\n🔗 <a href="{escape(url)}">مطالعه مقاله</a>'
+        result.append(f'🔗 <a href="{escape(url)}">مطالعه مقاله</a>')
 
-    return message
+    return result
 
 
 async def send_articles(articles, chat_id=None):
@@ -108,13 +128,15 @@ async def send_articles(articles, chat_id=None):
 
     for article in articles:
         try:
-            message = format_article(article)
-            await bot.send_message(
-                chat_id=target_chat,
-                text=message,
-                parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True,
-            )
+            messages = format_article(article)
+            for msg in messages:
+                await bot.send_message(
+                    chat_id=target_chat,
+                    text=msg,
+                    parse_mode=ParseMode.HTML,
+                    disable_web_page_preview=True,
+                )
+                await asyncio.sleep(0.5)
             sent_count += 1
             sent_ids.append(article["id"])
             logger.info(f"Sent article {article['id']}: {article['title'][:50]}")
@@ -124,12 +146,14 @@ async def send_articles(articles, chat_id=None):
             logger.error(f"Failed to send article {article.get('id')}: {e}")
             try:
                 await asyncio.sleep(3)
-                await bot.send_message(
-                    chat_id=target_chat,
-                    text=message,
-                    parse_mode=ParseMode.HTML,
-                    disable_web_page_preview=True,
-                )
+                for msg in messages:
+                    await bot.send_message(
+                        chat_id=target_chat,
+                        text=msg,
+                        parse_mode=ParseMode.HTML,
+                        disable_web_page_preview=True,
+                    )
+                    await asyncio.sleep(0.5)
                 sent_count += 1
                 sent_ids.append(article["id"])
             except Exception as e2:

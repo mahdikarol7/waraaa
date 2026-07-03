@@ -74,7 +74,7 @@ def generate_persian_summary(article):
     combined = " ".join(filter(None, [summary_text, content_text]))
 
     if combined and len(combined) > 50:
-        key_text = extract_key_sentences(combined, num_sentences=12)
+        key_text = extract_key_sentences(combined, num_sentences=20)
         article["summary_fa"] = translate_to_persian(key_text)
     else:
         # Fallback: just use the title as summary
