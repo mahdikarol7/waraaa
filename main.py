@@ -285,8 +285,10 @@ def main():
     app.add_handler(CommandHandler("status", status_command))
 
     # Scheduled jobs at Iran time (UTC+3:30)
-    from telegram.ext import JobQueue
     job_queue = app.job_queue
+
+    async def scheduled_run(context):
+        await run_monitor(context)
 
     # Iran times: 05:00, 08:00, 11:00, 14:00, 17:00, 20:00, 23:00
     # = UTC: 01:30, 04:30, 07:30, 10:30, 13:30, 16:30, 19:30
@@ -295,7 +297,7 @@ def main():
     ]
     for hour, minute in iran_times:
         job_queue.run_daily(
-            run_monitor,
+            scheduled_run,
             time=dtime(hour=hour, minute=minute, tzinfo=timezone.utc),
             name=f"news_{hour:02d}:{minute:02d}_UTC",
         )
