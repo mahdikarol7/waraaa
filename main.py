@@ -318,6 +318,22 @@ def main():
     thread.start()
     logger.info(f"Keep-alive server running on port {port}")
 
+    # Background keep-alive: ping Telegram every 5 minutes to prevent sleep
+    import httpx
+    def keep_alive_loop():
+        import time
+        while True:
+            time.sleep(300)  # every 5 minutes
+            try:
+                r = httpx.get(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/getMe", timeout=10)
+                logger.debug(f"Keep-alive ping: {r.status_code}")
+            except Exception as e:
+                logger.warning(f"Keep-alive ping failed: {e}")
+
+    ka_thread = threading.Thread(target=keep_alive_loop, daemon=True)
+    ka_thread.start()
+    logger.info("Keep-alive ping started (every 5 min)")
+
     app.run_polling(drop_pending_updates=True)
 
 
