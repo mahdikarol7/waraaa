@@ -11,7 +11,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 from config import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, LOG_FILE, LOG_LEVEL
 from database import (
     init_db, insert_article, get_unsent_articles, mark_sent, log_run,
-    add_user, get_all_users
+    add_user, get_all_users, use_news_token
 )
 from sources import fetch_all_sources
 from processor import (
@@ -199,7 +199,16 @@ async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     username = update.effective_user.username or update.effective_user.first_name
     add_user(chat_id, username)
 
-    await update.message.reply_text("Fetching latest news, please wait...")
+    # Check token
+    success, remaining, hours = use_news_token(chat_id)
+    if not success:
+        await update.message.reply_text(
+            f"No tokens left. Refills every 3 hours.\n"
+            f"Try again in {hours} hour(s)."
+        )
+        return
+
+    await update.message.reply_text(f"Fetching latest news, please wait... ({remaining} token(s) left)")
 
     try:
         await run_monitor(target_chat_id=str(chat_id), max_articles=30)

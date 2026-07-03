@@ -51,7 +51,9 @@ def init_db():
             chat_id TEXT PRIMARY KEY,
             username TEXT,
             first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            news_tokens INTEGER DEFAULT 4,
+            last_token_refill TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
 
         CREATE INDEX IF NOT EXISTS idx_articles_url ON articles(url);
@@ -175,9 +177,12 @@ def add_user(chat_id, username=None):
     conn = get_connection()
     now = datetime.now(timezone.utc).isoformat()
     conn.execute("""
-        INSERT OR REPLACE INTO users (chat_id, username, last_active)
-        VALUES (?, ?, ?)
-    """, (str(chat_id), username, now))
+        INSERT OR IGNORE INTO users (chat_id, username, first_seen, last_active, news_tokens, last_token_refill)
+        VALUES (?, ?, ?, ?, 4, ?)
+    """, (str(chat_id), username, now, now, now))
+    conn.execute("""
+        UPDATE users SET last_active = ? WHERE chat_id = ?
+    """, (now, str(chat_id)))
     conn.commit()
     conn.close()
 
@@ -187,3 +192,49 @@ def get_all_users():
     rows = conn.execute("SELECT chat_id FROM users").fetchall()
     conn.close()
     return [row["chat_id"] for row in rows]
+
+
+MAX_TOKENS = 4
+TOKEN_REFILL_HOURS = 3
+
+
+def use_news_token(chat_id):
+    """Try to use a /news token. Returns (success, tokens_remaining, hours_until_refill)."""
+    conn = get_connection()
+    now = datetime.now(timezone.utc)
+    row = conn.execute(
+        "SELECT news_tokens, last_token_refill FROM users WHERE chat_id = ?",
+        (str(chat_id),)
+    ).fetchone()
+
+    if not row:
+        conn.close()
+        return False, 0, 0
+
+    tokens = row["news_tokens"]
+    last_refill = datetime.fromisoformat(row["last_token_refill"])
+
+    # Refill tokens if enough time has passed
+    hours_since_refill = (now - last_refill).total_seconds() / 3600
+    if hours_since_refill >= TOKEN_REFILL_HOURS:
+        tokens = MAX_TOKENS
+        conn.execute(
+            "UPDATE users SET news_tokens = ?, last_token_refill = ? WHERE chat_id = ?",
+            (tokens, now.isoformat(), str(chat_id))
+        )
+        conn.commit()
+
+    if tokens <= 0:
+        hours_left = TOKEN_REFILL_HOURS - hours_since_refill
+        conn.close()
+        return False, 0, max(0, round(hours_left, 1))
+
+    # Use a token
+    tokens -= 1
+    conn.execute(
+        "UPDATE users SET news_tokens = ?, last_active = ? WHERE chat_id = ?",
+        (tokens, now.isoformat(), str(chat_id))
+    )
+    conn.commit()
+    conn.close()
+    return True, tokens, 0
