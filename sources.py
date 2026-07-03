@@ -46,11 +46,19 @@ def fetch_feed(source_name, url):
             link = entry.get("link", "")
             title = entry.get("title", "").strip()
 
+            # Google News RSS has a source field with the real source URL
+            real_url = link
+            if hasattr(entry, "source") and hasattr(entry.source, "href"):
+                source_href = entry.source.href
+                if source_href and "news.google.com" not in source_href:
+                    real_url = source_href
+
             if not title or not link:
                 continue
 
             articles.append({
-                "url": link,
+                "url": real_url,
+                "google_url": link if "news.google.com" in link else "",
                 "title": title,
                 "summary": summary,
                 "source": source_name,

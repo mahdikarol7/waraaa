@@ -60,8 +60,8 @@ RSS_SOURCES = {
         "weight": 0.8,
     },
     "ISW": {
-        "url": "https://news.google.com/rss/search?q=site:understandingwar.org&hl=en-US&gl=US&ceid=US:en",
-        "fallback_url": "https://www.understandingwar.org/feed",
+        "url": "https://news.google.com/rss/search?q=ISW+institute+for+the+study+of+war&hl=en-US&gl=US&ceid=US:en",
+        "fallback_url": "https://news.google.com/rss/search?q=understandingwar+daily+update&hl=en-US&gl=US&ceid=US:en",
         "weight": 1.3,
     },
 }

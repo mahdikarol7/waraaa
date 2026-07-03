@@ -29,9 +29,9 @@ SOURCE_URLS = {
 def clean_url(url):
     """Clean Google News redirect URLs — return source website instead."""
     if not url:
-        return url
+        return ""
     if "news.google.com" in url:
-        return ""  # Don't show broken redirect links
+        return ""
     return url
 
 
@@ -51,8 +51,8 @@ def format_article(article):
             countries = []
 
     summary_fa = article.get("summary_fa") or article.get("summary", "")
-    if len(summary_fa) > 700:
-        summary_fa = summary_fa[:697] + "..."
+    if len(summary_fa) > 2000:
+        summary_fa = summary_fa[:1997] + "..."
 
     countries_str = ", ".join(countries) if countries else "N/A"
     raw_url = article.get("url", "")

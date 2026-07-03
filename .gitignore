@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.db
+.env
+news_manager.log
+check_urls.py
+*.egg-info/
