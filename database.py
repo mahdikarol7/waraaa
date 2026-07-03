@@ -62,6 +62,17 @@ def init_db():
         CREATE INDEX IF NOT EXISTS idx_articles_fetched ON articles(fetched_at);
     """)
     conn.commit()
+
+    # Add missing columns if DB already exists
+    try:
+        conn.execute("ALTER TABLE users ADD COLUMN news_tokens INTEGER DEFAULT 4")
+    except Exception:
+        pass
+    try:
+        conn.execute("ALTER TABLE users ADD COLUMN last_token_refill TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    except Exception:
+        pass
+    conn.commit()
     conn.close()
 
 
