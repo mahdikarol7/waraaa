@@ -176,24 +176,24 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
 async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /news command — fetch and send latest news to the user."""
     chat_id = update.effective_chat.id
-    await update.message.reply_text("正在获取最新新闻，请稍候...")
+    await update.message.reply_text("Fetching latest news, please wait...")
 
     try:
         await run_monitor(target_chat_id=str(chat_id))
-        await update.message.reply_text("新闻已发送完成!")
+        await update.message.reply_text("Done! News sent.")
     except Exception as e:
         logger.error(f"Error in /news command: {e}")
-        await update.message.reply_text(f"获取新闻时出错: {e}")
+        await update.message.reply_text(f"Error fetching news: {e}")
 
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /start command."""
     await update.message.reply_text(
-        "欢迎使用战争新闻监控机器人!\n\n"
-        "命令:\n"
-        "/news - 立即获取最新新闻\n"
-        "/status - 查看机器人状态\n\n"
-        "新闻每3小时自动发送一次。"
+        "Welcome to War News Monitor Bot!\n\n"
+        "Commands:\n"
+        "/news - Get latest news now\n"
+        "/status - Check bot status\n\n"
+        "News is automatically sent every 3 hours."
     )
 
 
@@ -207,11 +207,11 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn.close()
 
     await update.message.reply_text(
-        f"📊 机器人状态\n\n"
-        f"📰 数据库中的文章: {total}\n"
-        f"📤 已发送: {sent}\n"
-        f"📥 待发送: {unsent}\n"
-        f"⏰ 自动发送: 每3小时"
+        f"📊 Bot Status\n\n"
+        f"📰 Articles in DB: {total}\n"
+        f"📤 Sent: {sent}\n"
+        f"📥 Pending: {unsent}\n"
+        f"⏰ Auto-send: Every 3 hours"
     )
 
 
