@@ -174,12 +174,11 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=
 
 
 async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /news command — fetch and send latest news to the user."""
-    chat_id = update.effective_chat.id
+    """Handle /news command — fetch and send latest news to the owner."""
     await update.message.reply_text("Fetching latest news, please wait...")
 
     try:
-        await run_monitor(target_chat_id=str(chat_id))
+        await run_monitor()
         await update.message.reply_text("Done! News sent.")
     except Exception as e:
         logger.error(f"Error in /news command: {e}")
