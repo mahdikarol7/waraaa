@@ -34,7 +34,7 @@ WAR_KEYWORDS = [
     "ballistic", "himars", "patriot", "s-300", "kherson",
     "mykolaiv", "dnipro", "odesa", "mariupol",
 ]
-MAX_ARTICLES_PER_RUN = 30
+MAX_ARTICLES_PER_RUN = 50
 
 
 def setup_logging():
@@ -48,15 +48,20 @@ def setup_logging():
     )
 
 
-    # Exclude non-relevant regions
+    # Exclude non-relevant regions (only exact matches to avoid false positives)
     EXCLUDE_KEYWORDS = [
-        "china", "taiwan", "beijing", "taipei", "south china sea",
-        "philippines", "japan", "korea", "myanmar", "sudan",
-        "ethiopia", "somalia", "haiti", "venezuela", "bolivia",
+        "china-taiwan", "south china sea", "taipei", "beijing",
+        "myanmar", "sudan", "ethiopia", "haiti", "venezuela",
     ]
 
     def is_war_relevant(article):
         text = (article.get("title", "") + " " + article.get("summary", "")).lower()
+        # Only exclude if the article is PRIMARILY about excluded topics
+        # and doesn't mention Ukraine/Russia/Middle East
+        core_conflicts = ["ukraine", "russia", "gaza", "israel", "iran", "syria", "hezbollah", "hamas"]
+        has_core = any(kw in text for kw in core_conflicts)
+        if has_core:
+            return True
         if any(kw in text for kw in EXCLUDE_KEYWORDS):
             return False
         return any(kw in text for kw in WAR_KEYWORDS)
