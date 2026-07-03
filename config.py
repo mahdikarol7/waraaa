@@ -27,20 +27,30 @@ TITLE_SIMILARITY_THRESHOLD = 0.85
 MAX_ARTICLES_PER_MESSAGE = 5
 TELEGRAM_SEND_DELAY = 1.0  # seconds between sends
 
-# RSS Sources
+# RSS Sources — neutral and unbiased outlets
 RSS_SOURCES = {
     "Reuters": {
-        "url": "https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike&hl=en-US&gl=US&ceid=US:en",
-        "fallback_url": "https://www.reuters.com/arc/outboundfeeds/v3/all/rss.xml",
+        "url": "https://news.google.com/rss/search?q=site:reuters.com+war+OR+conflict+OR+strike+OR+attack&hl=en-US&gl=US&ceid=US:en",
+        "fallback_url": None,
         "weight": 1.2,
     },
     "AP News": {
-        "url": "https://feedx.net/rss/ap.xml",
-        "fallback_url": "https://rsshub.app/apnews/topics/world-news",
-        "weight": 1.1,
+        "url": "https://news.google.com/rss/search?q=site:apnews.com+war+OR+conflict+OR+attack&hl=en-US&gl=US&ceid=US:en",
+        "fallback_url": None,
+        "weight": 1.2,
     },
     "BBC": {
         "url": "http://feeds.bbci.co.uk/news/world/rss.xml",
+        "fallback_url": None,
+        "weight": 1.1,
+    },
+    "DW": {
+        "url": "https://rss.dw.com/rdf/rss-en-all",
+        "fallback_url": None,
+        "weight": 1.0,
+    },
+    "NPR": {
+        "url": "https://feeds.npr.org/1004/rss.xml",
         "fallback_url": None,
         "weight": 1.0,
     },
@@ -49,20 +59,10 @@ RSS_SOURCES = {
         "fallback_url": None,
         "weight": 1.0,
     },
-    "DW": {
-        "url": "https://rss.dw.com/rdf/rss-en-all",
+    "The Guardian": {
+        "url": "https://www.theguardian.com/world/rss",
         "fallback_url": None,
-        "weight": 0.9,
-    },
-    "Google News": {
-        "url": "https://news.google.com/rss/search?q=ukraine+war+OR+russia+war+OR+middle+east+war&hl=en-US&gl=US&ceid=US:en",
-        "fallback_url": None,
-        "weight": 0.8,
-    },
-    "ISW": {
-        "url": "https://news.google.com/rss/search?q=ISW+institute+for+the+study+of+war&hl=en-US&gl=US&ceid=US:en",
-        "fallback_url": "https://news.google.com/rss/search?q=understandingwar+daily+update&hl=en-US&gl=US&ceid=US:en",
-        "weight": 1.3,
+        "weight": 1.0,
     },
 }
 

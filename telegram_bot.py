@@ -21,6 +21,8 @@ SOURCE_URLS = {
     "BBC": "https://www.bbc.com",
     "Al Jazeera": "https://www.aljazeera.com",
     "DW": "https://www.dw.com",
+    "NPR": "https://www.npr.org",
+    "The Guardian": "https://www.theguardian.com",
     "Google News": "https://news.google.com",
     "ISW": "https://www.understandingwar.org",
 }
