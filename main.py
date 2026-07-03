@@ -14,8 +14,8 @@ from database import (
 )
 from sources import fetch_all_sources
 from processor import (
-    extract_full_text, deduplicate_articles,
-    classify_article, translate_to_persian, generate_persian_summary
+    deduplicate_articles,
+    classify_article, generate_persian_summary
 )
 from telegram_bot import send_articles, send_run_summary
 from scheduler import setup_scheduler
