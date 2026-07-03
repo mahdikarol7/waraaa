@@ -48,23 +48,22 @@ def setup_logging():
     )
 
 
-    # Exclude non-relevant regions (only exact matches to avoid false positives)
-    EXCLUDE_KEYWORDS = [
-        "china-taiwan", "south china sea", "taipei", "beijing",
-        "myanmar", "sudan", "ethiopia", "haiti", "venezuela",
-    ]
+# Exclude non-relevant regions (only exact matches to avoid false positives)
+EXCLUDE_KEYWORDS = [
+    "china-taiwan", "south china sea", "taipei", "beijing",
+    "myanmar", "sudan", "ethiopia", "haiti", "venezuela",
+]
 
-    def is_war_relevant(article):
-        text = (article.get("title", "") + " " + article.get("summary", "")).lower()
-        # Only exclude if the article is PRIMARILY about excluded topics
-        # and doesn't mention Ukraine/Russia/Middle East
-        core_conflicts = ["ukraine", "russia", "gaza", "israel", "iran", "syria", "hezbollah", "hamas"]
-        has_core = any(kw in text for kw in core_conflicts)
-        if has_core:
-            return True
-        if any(kw in text for kw in EXCLUDE_KEYWORDS):
-            return False
-        return any(kw in text for kw in WAR_KEYWORDS)
+
+def is_war_relevant(article):
+    text = (article.get("title", "") + " " + article.get("summary", "")).lower()
+    core_conflicts = ["ukraine", "russia", "gaza", "israel", "iran", "syria", "hezbollah", "hamas"]
+    has_core = any(kw in text for kw in core_conflicts)
+    if has_core:
+        return True
+    if any(kw in text for kw in EXCLUDE_KEYWORDS):
+        return False
+    return any(kw in text for kw in WAR_KEYWORDS)
 
 
 async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None):
