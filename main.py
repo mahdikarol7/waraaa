@@ -66,7 +66,7 @@ def is_war_relevant(article):
     return any(kw in text for kw in WAR_KEYWORDS)
 
 
-async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None):
+async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None, target_chat_id=None):
     """Main monitoring cycle: fetch, process, send."""
     started_at = datetime.now(timezone.utc).isoformat()
     errors = []
@@ -137,7 +137,7 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None):
 
     if unsent:
         try:
-            articles_sent, sent_ids = await send_articles(unsent)
+            articles_sent, sent_ids = await send_articles(unsent, chat_id=target_chat_id)
             mark_sent(sent_ids)
             logger.info(f"Sent {articles_sent} articles to Telegram")
         except Exception as e:
@@ -174,11 +174,12 @@ async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None):
 
 
 async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /news command — fetch and send latest news immediately."""
+    """Handle /news command — fetch and send latest news to the user."""
+    chat_id = update.effective_chat.id
     await update.message.reply_text("正在获取最新新闻，请稍候...")
 
     try:
-        await run_monitor()
+        await run_monitor(target_chat_id=str(chat_id))
         await update.message.reply_text("新闻已发送完成!")
     except Exception as e:
         logger.error(f"Error in /news command: {e}")

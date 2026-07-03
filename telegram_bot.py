@@ -95,10 +95,11 @@ def format_article(article):
     return message
 
 
-async def send_articles(articles):
+async def send_articles(articles, chat_id=None):
     if not articles:
         return 0, []
 
+    target_chat = chat_id or TELEGRAM_CHAT_ID
     bot = Bot(token=TELEGRAM_BOT_TOKEN)
     sent_count = 0
     sent_ids = []
@@ -107,7 +108,7 @@ async def send_articles(articles):
         try:
             message = format_article(article)
             await bot.send_message(
-                chat_id=TELEGRAM_CHAT_ID,
+                chat_id=target_chat,
                 text=message,
                 parse_mode=ParseMode.HTML,
                 disable_web_page_preview=True,
@@ -122,7 +123,7 @@ async def send_articles(articles):
             try:
                 await asyncio.sleep(3)
                 await bot.send_message(
-                    chat_id=TELEGRAM_CHAT_ID,
+                    chat_id=target_chat,
                     text=message,
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True,
