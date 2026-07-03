@@ -1,13 +1,12 @@
-import asyncio
 import logging
 import sys
 import os
-import json
 from datetime import datetime, timezone
 
-# Ensure the package is importable
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 from config import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, LOG_FILE, LOG_LEVEL
 from database import (
     init_db, insert_article, get_unsent_articles, mark_sent, log_run
@@ -18,7 +17,24 @@ from processor import (
     classify_article, generate_persian_summary
 )
 from telegram_bot import send_articles, send_run_summary
-from scheduler import setup_scheduler
+
+logger = logging.getLogger(__name__)
+
+WAR_KEYWORDS = [
+    "war", "attack", "strike", "missile", "drone", "bomb", "blast",
+    "explosion", "shelling", "offensive", "frontline", "troops",
+    "military", "army", "weapon", "sanction", "ceasefire", "invasion",
+    "conflict", "combat", "casualty", "killed", "wounded", "refugee",
+    "evacuation", "nato", "nuclear", "air defense", "artillery",
+    "ukraine", "russia", "gaza", "israel", "hezbollah", "hamas",
+    "iran", "syria", "yemen", "houthi", "donbas", "crimea",
+    "kyiv", "kharkiv", "belgorod", "sumy", "zaporizhzhia",
+    "pentagon", "kremlin", "zelensky", "putin", "netanyahu",
+    "escalat", "negotiat", "peace talk", "cruise missile",
+    "ballistic", "himars", "patriot", "s-300", "kherson",
+    "mykolaiv", "dnipro", "odesa", "mariupol",
+]
+MAX_ARTICLES_PER_RUN = 30
 
 
 def setup_logging():
@@ -32,10 +48,14 @@ def setup_logging():
     )
 
 
-async def run_monitor():
+def is_war_relevant(article):
+    text = (article.get("title", "") + " " + article.get("summary", "")).lower()
+    return any(kw in text for kw in WAR_KEYWORDS)
+
+
+async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None):
     """Main monitoring cycle: fetch, process, send."""
     started_at = datetime.now(timezone.utc).isoformat()
-    logger = logging.getLogger("monitor")
     errors = []
 
     logger.info("=" * 60)
@@ -67,30 +87,9 @@ async def run_monitor():
     logger.info(f"After dedup: {len(unique_articles)} unique articles")
 
     # Step 2.5: Pre-filter for war/conflict relevance
-    WAR_KEYWORDS = [
-        "war", "attack", "strike", "missile", "drone", "bomb", "blast",
-        "explosion", "shelling", "offensive", "frontline", "troops",
-        "military", "army", "weapon", "sanction", "ceasefire", "invasion",
-        "conflict", "combat", "casualty", "killed", "wounded", "refugee",
-        "evacuation", "nato", "nuclear", "air defense", "artillery",
-        "ukraine", "russia", "gaza", "israel", "hezbollah", "hamas",
-        "iran", "syria", "yemen", "houthi", "donbas", "crimea",
-        "kyiv", "kharkiv", "belgorod", "sumy", "zaporizhzhia",
-        "pentagon", "kremlin", "zelensky", "putin", "netanyahu",
-        "escalat", "ceasefire", "negotiat", "peace talk",
-        "cruise missile", "ballistic", "himars", "patriot", "s-300",
-        "kherson", "mykolaiv", "dnipro", "odesa", "mariupol",
-    ]
-
-    def is_war_relevant(article):
-        text = (article.get("title", "") + " " + article.get("summary", "")).lower()
-        return any(kw in text for kw in WAR_KEYWORDS)
-
     filtered = [a for a in unique_articles if is_war_relevant(a)]
     logger.info(f"War-relevant filter: {len(filtered)}/{len(unique_articles)} articles passed")
 
-    # Cap at 30 articles per run to keep it manageable
-    MAX_ARTICLES_PER_RUN = 30
     if len(filtered) > MAX_ARTICLES_PER_RUN:
         filtered = filtered[:MAX_ARTICLES_PER_RUN]
         logger.info(f"Capped to {MAX_ARTICLES_PER_RUN} articles per run")
@@ -99,28 +98,19 @@ async def run_monitor():
 
     # Step 3: Process each article
     articles_new = 0
-    processed_articles = []
-
     total = len(unique_articles)
+
     for i, article in enumerate(unique_articles, 1):
         try:
-            # Skip full-text extraction (RSS summary is enough, saves ~4 sec per article)
             article["content"] = article.get("summary", "")
-
-            # Classify
             article = classify_article(article)
-
-            # Translate and summarize
             article = generate_persian_summary(article)
 
-            # Store in DB
             if insert_article(article):
                 articles_new += 1
-                processed_articles.append(article)
 
             if i % 25 == 0 or i == total:
                 logger.info(f"Progress: {i}/{total} articles processed ({articles_new} new)")
-
         except Exception as e:
             logger.error(f"Error processing article '{article.get('title', '')[:50]}': {e}")
             errors.append(f"Processing error: {e}")
@@ -170,45 +160,88 @@ async def run_monitor():
     logger.info("=" * 60)
 
 
-async def main():
-    """Main entry point: init DB, set up scheduler, start bot."""
-    setup_logging()
-    logger = logging.getLogger("main")
+async def news_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /news command — fetch and send latest news immediately."""
+    await update.message.reply_text("正在获取最新新闻，请稍候...")
 
-    # Validate config
+    try:
+        await run_monitor()
+        await update.message.reply_text("新闻已发送完成!")
+    except Exception as e:
+        logger.error(f"Error in /news command: {e}")
+        await update.message.reply_text(f"获取新闻时出错: {e}")
+
+
+async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /start command."""
+    await update.message.reply_text(
+        "欢迎使用战争新闻监控机器人!\n\n"
+        "命令:\n"
+        "/news - 立即获取最新新闻\n"
+        "/status - 查看机器人状态\n\n"
+        "新闻每3小时自动发送一次。"
+    )
+
+
+async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /status command."""
+    from database import get_connection
+    conn = get_connection()
+    total = conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0]
+    sent = conn.execute("SELECT COUNT(*) FROM articles WHERE sent_to_telegram = 1").fetchone()[0]
+    unsent = conn.execute("SELECT COUNT(*) FROM articles WHERE sent_to_telegram = 0 AND is_duplicate = 0").fetchone()[0]
+    conn.close()
+
+    await update.message.reply_text(
+        f"📊 机器人状态\n\n"
+        f"📰 数据库中的文章: {total}\n"
+        f"📤 已发送: {sent}\n"
+        f"📥 待发送: {unsent}\n"
+        f"⏰ 自动发送: 每3小时"
+    )
+
+
+def main():
+    setup_logging()
+    logger.info("Starting War News Bot")
+
     if not TELEGRAM_BOT_TOKEN:
-        logger.error("TELEGRAM_BOT_TOKEN not set. Add it to .env file.")
+        logger.error("TELEGRAM_BOT_TOKEN not set.")
         sys.exit(1)
     if not TELEGRAM_CHAT_ID:
-        logger.error("TELEGRAM_CHAT_ID not set. Add it to .env file.")
+        logger.error("TELEGRAM_CHAT_ID not set.")
         sys.exit(1)
 
-    # Init database
     init_db()
     logger.info("Database initialized")
 
-    # Check for test mode
+    # Test mode: single run without bot
     if "--test" in sys.argv:
-        logger.info("Running in test mode (single immediate run)")
-        await run_monitor()
+        import asyncio
+        logger.info("Running in test mode")
+        asyncio.run(run_monitor())
         logger.info("Test run complete")
         return
 
-    # Set up scheduler
-    scheduler = setup_scheduler(run_monitor)
-    scheduler.start()
+    # Build bot application
+    app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
-    logger.info("News monitor scheduler started")
-    logger.info(f"Next runs at: {', '.join(job.next_run_time.isoformat() for job in scheduler.get_jobs())}")
+    # Command handlers
+    app.add_handler(CommandHandler("start", start_command))
+    app.add_handler(CommandHandler("news", news_command))
+    app.add_handler(CommandHandler("status", status_command))
 
-    # Keep running
-    try:
-        while True:
-            await asyncio.sleep(60)
-    except (KeyboardInterrupt, SystemExit):
-        logger.info("Shutting down...")
-        scheduler.shutdown()
+    # Scheduled job: every 3 hours
+    app.job_queue.run_repeating(
+        run_monitor,
+        interval=3 * 3600,  # 3 hours in seconds
+        first=10,  # first run 10 seconds after start
+        name="news_monitor",
+    )
+
+    logger.info("Bot started with /news command and 3-hour auto schedule")
+    app.run_polling(drop_pending_updates=True)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
