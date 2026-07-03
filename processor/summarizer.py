@@ -74,7 +74,7 @@ def generate_persian_summary(article):
     combined = " ".join(filter(None, [title, summary_text, content_text]))
 
     if combined:
-        key_text = extract_key_sentences(combined, num_sentences=8)
+        key_text = extract_key_sentences(combined, num_sentences=16)
         article["summary_fa"] = translate_to_persian(key_text)
     else:
         article["summary_fa"] = article.get("title_fa", "")

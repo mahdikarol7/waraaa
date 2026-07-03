@@ -48,9 +48,18 @@ def setup_logging():
     )
 
 
-def is_war_relevant(article):
-    text = (article.get("title", "") + " " + article.get("summary", "")).lower()
-    return any(kw in text for kw in WAR_KEYWORDS)
+    # Exclude non-relevant regions
+    EXCLUDE_KEYWORDS = [
+        "china", "taiwan", "beijing", "taipei", "south china sea",
+        "philippines", "japan", "korea", "myanmar", "sudan",
+        "ethiopia", "somalia", "haiti", "venezuela", "bolivia",
+    ]
+
+    def is_war_relevant(article):
+        text = (article.get("title", "") + " " + article.get("summary", "")).lower()
+        if any(kw in text for kw in EXCLUDE_KEYWORDS):
+            return False
+        return any(kw in text for kw in WAR_KEYWORDS)
 
 
 async def run_monitor(context: ContextTypes.DEFAULT_TYPE = None):
